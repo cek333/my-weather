@@ -1,8 +1,26 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { configureStore, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+const initialState = {
+  weather: {
+    city: '',
+    icon: '',
+    temperature: '',
+    description: '',
+    windSpeed: ''
+  },
+  timestamp: Date.now(),
+  status: 'idle',
+  error: ''
+};
+
+const weatherSlice = createSlice({
+  name: 'weather',
+  initialState,
+  reducers: { }
+});
+
+// export const { } = weatherSlice.actions;
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-  },
+  reducer: weatherSlice.reducer
 });
