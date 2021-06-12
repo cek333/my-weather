@@ -52,28 +52,33 @@ const weatherSlice = createSlice({
       })
       .addCase(refreshData.fulfilled, (state, action) => {
         // console.log('refreshData.fulfilled data=', action.payload);
-        const {
-          name,
-          weather: {
-            summary: {
-              description,
-              icon
-            },
-            temperature: {
-              actual
-            },
-            wind: {
-              speed
+        if (action.payload) {
+          const {
+            name,
+            weather: {
+              summary: {
+                description,
+                icon
+              },
+              temperature: {
+                actual
+              },
+              wind: {
+                speed
+              }
             }
-          }
-        } = action.payload;
+          } = action.payload;
+          state.weather.city = name;
+          state.weather.icon = icon;
+          state.weather.temperature = actual;
+          state.weather.description = description;
+          state.weather.windSpeed = speed;
+          state.timestamp = Date.now();
+        } else {
+          // City specified was invalid
+          state.error = 'Unable to get data for city specified.'
+        }
         state.status = 'idle';
-        state.weather.city = name;
-        state.weather.icon = icon;
-        state.weather.temperature = actual;
-        state.weather.description = description;
-        state.weather.windSpeed = speed;
-        state.timestamp = Date.now();
       })
       .addCase(refreshData.rejected, (state, action) => {
         state.status = 'idle';
@@ -85,6 +90,6 @@ const weatherSlice = createSlice({
 
 // export const { } = weatherSlice.actions;
 
-export const store = configureStore({
+export default configureStore({
   reducer: weatherSlice.reducer
 });
