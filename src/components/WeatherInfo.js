@@ -22,8 +22,9 @@ function WeatherInfo() {
   }
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(refreshData('Toronto'));
+    if (status === 'idle' && weather.city === '') {
+      // Detect city and get its weather
+      dispatch(refreshData(''));
     }
   }, []);
 

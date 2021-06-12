@@ -33,5 +33,10 @@ async function refreshWeatherData(city) {
   return response.data.getCityByName;
 }
 
-const API = { refreshWeatherData };
+function detectCity() {
+  const ipInfoUrl = `https://ipinfo.io/json?token=${process.env.REACT_APP_IPINFO_TOKEN}`;
+  return fetch(ipInfoUrl).then(res => res.json());
+}
+
+const API = { refreshWeatherData, detectCity };
 export default API;

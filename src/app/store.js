@@ -19,14 +19,25 @@ const initialState = {
 export const refreshData = createAsyncThunk(
   'weather/refresh',
   async (newCity) => {
-    const response = await API.refreshWeatherData(newCity);
+    let response;
+    let queryCity;
+    if (newCity === '') {
+      // Detect new city first
+      response = await API.detectCity();
+      // Note, if city name is invalid, weather data will be null, and reducer will pass error message to user
+      queryCity = response.city;
+    } else {
+      queryCity = newCity;
+    }
+    response = await API.refreshWeatherData(queryCity);
     // The value we return becomes the `fulfilled` action payload
     return response;
   },
   {
     condition: (newCity, { getState }) => {
       const { weather: { city }, timestamp } = getState();
-      if (city === newCity) {
+      // Note: on startup city/newCity may be ''
+      if (city && newCity && city === newCity) {
         // Check if 10min has elaspse
         if ((Date.now() - timestamp) < TEN_MINUTES) {
           console.log('Refresh Aborted! Less than 10min have passed!');
@@ -76,7 +87,7 @@ const weatherSlice = createSlice({
           state.timestamp = Date.now();
         } else {
           // City specified was invalid
-          state.error = 'Unable to get data for city specified.'
+          state.error = 'Unable to get data for city specified/detected. Please enter valid city name.'
         }
         state.status = 'idle';
       })
