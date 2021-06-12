@@ -21,7 +21,7 @@ export const refreshData = createAsyncThunk(
   async (newCity) => {
     const response = await API.refreshWeatherData(newCity);
     // The value we return becomes the `fulfilled` action payload
-    return response.data.getCityByName; // Move to API
+    return response;
   },
   {
     condition: (newCity, { getState }) => {

@@ -29,7 +29,8 @@ async function refreshWeatherData(city) {
       }
     }
   `;
-  return client.query({ query });
+  const response = await client.query({ query });
+  return response.data.getCityByName;
 }
 
 const API = { refreshWeatherData };
