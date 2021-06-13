@@ -9,6 +9,7 @@ import {
  expectedState2,
  refreshDataPendingAction,
  refreshDataFulfilledAction,
+ refreshDataFulfilledActionNoData,
  refreshDataRejectedAction
 } from '../util/testData';
 
@@ -29,6 +30,11 @@ describe('store/reducer tests', () => {
       expect(actual.timestamp).toBeGreaterThan(initialState.timestamp);
       expect(actual.status).toEqual('idle');
       expect(actual.error).toBeFalsy();
+    });
+    test("should handle fulfilled action with no data i.e. city doesn't exist", () => {
+      const actual = reducer(initialState, refreshDataFulfilledActionNoData);
+      expect(actual.status).toEqual('idle');
+      expect(actual.error).toBeTruthy();
     });
     test('should handle rejected action', () => {
       const actual = reducer(initialState, refreshDataRejectedAction);
@@ -87,6 +93,15 @@ describe('store/reducer tests', () => {
       jest.spyOn(API, 'refreshWeatherData');
       API.refreshWeatherData.mockImplementation(() => Promise.reject('API call fails'));
       await store.dispatch(refreshData(expectedState.weather.city));
+      const actual = store.getState();
+      expect(actual.status).toEqual('idle');
+      expect(actual.error).toBeTruthy();
+    });
+
+    test("can't fetch data for invalid city", async () => {
+      jest.spyOn(API, 'refreshWeatherData');
+      API.refreshWeatherData.mockImplementation(() => Promise.resolve(null));
+      await store.dispatch(refreshData('invalid city'));
       const actual = store.getState();
       expect(actual.status).toEqual('idle');
       expect(actual.error).toBeTruthy();

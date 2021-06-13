@@ -83,6 +83,11 @@ export const refreshDataFulfilledAction = {
   payload: weatherAPIData
 };
 
+export const refreshDataFulfilledActionNoData = {
+  type: 'weather/refresh/fulfilled',
+  payload: null
+};
+
 export const refreshDataRejectedAction = {
   type: 'weather/refresh/rejected',
   payload: { }
