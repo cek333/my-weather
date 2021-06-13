@@ -99,8 +99,6 @@ const weatherSlice = createSlice({
   },
 });
 
-// export const { } = weatherSlice.actions;
+export const reducer = weatherSlice.reducer;
 
-export default configureStore({
-  reducer: weatherSlice.reducer
-});
+export default configureStore({ reducer });
