@@ -40,7 +40,7 @@ export const refreshData = createAsyncThunk(
       if (city && newCity && city === newCity) {
         // Check if 10min has elaspse
         if ((Date.now() - timestamp) < TEN_MINUTES) {
-          console.log('Refresh Aborted! Less than 10min have passed!');
+          // console.log('Refresh Aborted! Less than 10min have passed!');
           return false;
         }
       }
