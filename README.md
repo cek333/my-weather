@@ -5,6 +5,8 @@ Weather data is obtained from the [OpenWeather API](https://openweathermap.org/a
 
 A user's approximate location is determined using the [InInfo.io API](https://ipinfo.io).
 
+[Primitive UI](https://taniarascia.github.io/primitive/) was used for simple styling.
+
 ## Setup
 `npm install`
 
