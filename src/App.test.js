@@ -34,8 +34,8 @@ test('UI smoke test', async () => {
   // screen.debug();
   // Check other weather data
   expect(screen.getByText(expectedState.weather.description)).toBeInTheDocument();
-  let exp = new RegExp(expectedState.weather.temperature.toString(), 'i');
+  let exp = new RegExp(expectedState.weather.temperature.toString());
   expect(screen.getByText(exp)).toBeInTheDocument();
-  exp = new RegExp(expectedState.weather.windSpeed.toString(), 'i');
+  exp = new RegExp(expectedState.weather.windSpeed.toString());
   expect(screen.getByText(exp)).toBeInTheDocument();
 });
